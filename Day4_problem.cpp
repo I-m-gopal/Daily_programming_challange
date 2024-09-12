@@ -35,3 +35,57 @@ int main(){
     merge_the_sortarray(arr1,arr2);
     return 0;
 }
+
+
+//Solution 2 using gap method
+#include<bits/stdc++.h>
+using namespace std;
+void merge_the_sortarray(vector<int>&arr1,vector<int>&arr2){
+    int n = arr1.size();
+    int m = arr2.size();
+    int len1 = m+n;
+    int gap = (len1/2)+(len1%2);
+    //The gap should be grater than zero
+    while(gap>0){
+        int left = 0;
+        int right = gap;
+        while(right<len1){
+            //arr1
+            if(left<n && right<n){
+                 if (arr2[left] > arr2[right]) {
+                    swap(arr2[left], arr2[right]);
+                }
+            }
+            //arr2
+            else if(left >=n){
+                if(arr2[left - n] > arr2[right - n]) {
+                    swap(arr2[left - n], arr2[right - n]);
+                }
+            }
+            //arr1 and arr2
+            else{
+                if (arr1[left] > arr2[right - n]) {
+                    swap(arr1[left], arr2[right - n]);
+                }
+            }
+            left++;
+            right++;
+        }
+        if(gap==1) break;
+        gap  = (gap/2)+(gap%2);
+    }
+
+    for(int i:arr1) cout<<i<<" ";
+    cout<<endl;
+    for(int j:arr2) cout<<j<<" ";
+    
+}
+
+
+
+int main(){
+    vector<int> arr1 = {1,3,5};
+    vector<int> arr2 = {2,4,6};
+    merge_the_sortarray(arr1,arr2);
+    return 0;
+}
